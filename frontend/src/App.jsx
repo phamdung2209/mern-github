@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Fragment } from 'react'
+import { Toaster } from 'react-hot-toast'
 
 import { publicRoutes, privateRoutes } from './routes'
 import config from './config'
@@ -52,6 +53,8 @@ function App() {
                           })}
                 </Routes>
             </Router>
+
+            <Toaster />
         </>
     )
 }

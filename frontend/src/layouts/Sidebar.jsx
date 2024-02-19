@@ -6,7 +6,7 @@ import { MdEditDocument } from 'react-icons/md'
 
 import config from '../config'
 import { Link } from 'react-router-dom'
-import { Github } from '../assets/icons'
+import { GithubSvg } from '../assets/icons'
 import Logout from '../components/Logout'
 
 const Sidebar = () => {
@@ -18,7 +18,7 @@ const Sidebar = () => {
         >
             <nav className="h-full flex flex-col gap-3">
                 <Link to={config.routes.home} className="flex justify-center">
-                    <Github />
+                    <GithubSvg />
                 </Link>
 
                 <Link

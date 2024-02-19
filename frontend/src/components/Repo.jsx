@@ -1,7 +1,10 @@
 import { FaCodeBranch, FaCopy, FaRegStar } from 'react-icons/fa'
 import { FaCodeFork } from 'react-icons/fa6'
+import { formatDate } from '../ultils/functions'
+import { PROGRAMMING_LANGUAGES } from '../ultils/Constants'
+import toast from 'react-hot-toast'
 
-export const Repo = () => {
+export const Repo = ({ repo }) => {
     return (
         <li className="mb-10 ms-7">
             <span
@@ -12,28 +15,36 @@ export const Repo = () => {
             </span>
             <div className="flex gap-2 items-center flex-wrap">
                 <a
-                    href="https://github.com/phamdung2209/chat-app"
+                    href={repo.html_url}
                     target="_blank"
                     rel="noreferrer"
                     className="flex items-center gap-2 text-lg font-semibold"
                 >
-                    chat-app
+                    {repo.name}
                 </a>
                 <span
                     className="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5
         py-0.5 rounded-full flex items-center gap-1"
                 >
-                    <FaRegStar /> 100
+                    <FaRegStar /> {repo.stargazers_count}
                 </span>
                 <span
                     className="bg-purple-100 text-purple-800 text-xs font-medium
          px-2.5 py-0.5 rounded-full flex items-center gap-1"
                 >
-                    <FaCodeFork /> 100
+                    <FaCodeFork /> {repo.forks_count}
                 </span>
                 <span
                     className="cursor-pointer bg-green-100 text-green-800 text-xs
-        font-medium px-2.5 py-0.5 rounded-full flex items-center gap-1"
+        font-medium px-2.5 py-0.5 rounded-full flex items-center gap-1 active:scale-95 transition-transform duration-100 ease-in-out select-none"
+                    onClick={() => {
+                        try {
+                            navigator.clipboard.writeText(repo.clone_url)
+                            toast.success('Repo URL copied to clipboard')
+                        } catch (error) {
+                            toast.error('Failed to copy repo URL to clipboard')
+                        }
+                    }}
                 >
                     <FaCopy /> Clone
                 </span>
@@ -43,12 +54,12 @@ export const Repo = () => {
                 className="block my-1 text-xs font-normal leading-none
      text-gray-400"
             >
-                Released on 2021-10-10
+                Released on {formatDate(repo.created_at)}
             </time>
-            <p className="mb-4 text-base font-normal text-gray-500">A chat application built with React and Firebase</p>
-            {/* {PROGRAMMING_LANGUAGES[repo.language] ? (
-				<img src={PROGRAMMING_LANGUAGES[repo.language]} alt='Programming language icon' className='h-8' />
-			) : null} */}
+            <p className="mb-4 text-base font-normal text-gray-500">
+                {repo.description ? repo.description.slice(0, 500) : 'No description provided'}
+            </p>
+            {PROGRAMMING_LANGUAGES[repo.language] ? PROGRAMMING_LANGUAGES[repo.language] : null}
         </li>
     )
 }

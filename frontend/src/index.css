@@ -33,3 +33,60 @@ body {
         @apply bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10 hover:bg-gray-600/10 border-gray-800 text-white;
     }
 }
+
+/* github animation */
+@keyframes draw-ani {
+    50% {
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fill-ani {
+    50% {
+        stroke-dashoffset: 220;
+    }
+    80%,
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+#github-icon {
+    width: 40px;
+}
+
+.github {
+    transform: scale(3) translate(4.7px, 4.7px);
+    stroke: white;
+    fill: transparent;
+    stroke-width: 0.5;
+    stroke-dasharray: 140;
+    stroke-dashoffset: 140;
+    animation: draw-ani 5s linear infinite;
+}
+
+.github-mask {
+    transform: scale(3) translate(4.7px, 4.7px);
+    stroke: white;
+    stroke-width: 0.4;
+    fill: white;
+}
+
+.circle-fill {
+    transform-origin: 50px 50px;
+    transform: rotate(90deg);
+    stroke: white;
+    stroke-width: 35;
+    fill: transparent;
+    stroke-dasharray: 220;
+    stroke-dashoffset: 220;
+    animation: fill-ani 5s linear infinite;
+}
+
+.circle-outline {
+    stroke: black;
+    fill: white;
+}

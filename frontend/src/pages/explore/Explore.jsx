@@ -16,17 +16,9 @@ function Explore() {
         setLoading(true)
         setRepos([])
         try {
-            const res = await fetch(
-                `https://api.github.com/search/repositories?q=language:${language}&sort=stars&order=desc&per_page=10`,
-                {
-                    headers: {
-                        authorization: `token ${import.meta.env.VITE_GITHUB_API_KEY}`,
-                    },
-                },
-            )
-
-            const data = await res.json()
-            setRepos(data.items)
+            const res = await fetch(`http://localhost:8080/api/explore/repos/${language}`)
+            const { repos } = await res.json()
+            setRepos(repos)
         } catch (error) {
             toast.error(error.message)
         } finally {

@@ -1,58 +1,48 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { Fragment } from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 
-import { publicRoutes, privateRoutes } from './routes'
 import config from './config'
+import { useAuthContext } from './context/AuthContext'
 import MainLayout from './layouts/MainLayout'
+import Home from './pages/home/Home'
+import Login from './pages/login/Login'
+import SignUp from './pages/signUp/SignUp'
+import Likes from './pages/likes/Likes'
+import Explore from './pages/explore/Explore'
 
 function App() {
-    const isAuthenticated = false
+    const { authUser, loading } = useAuthContext()
+
+    if (loading) return null
+
     return (
         <>
-            <Router>
-                <Routes>
-                    {isAuthenticated
-                        ? privateRoutes.map((route, index) => {
-                              let Page = route.component
-                              const paths = privateRoutes.map((route) => route.path)
-
-                              if (!paths.includes(window.location.pathname)) {
-                                  window.location.href = config.routes.home
-                              }
-
-                              return <Route key={index} path={route.path} element={<Page />} />
-                          })
-                        : publicRoutes.map((route, index) => {
-                              let Page = route.component
-                              let Layout = MainLayout
-
-                              if (route.layout) {
-                                  Layout = route.layout
-                              } else if (route.layout === null) {
-                                  Layout = Fragment
-                              }
-
-                              const paths = publicRoutes.map((route) => route.path)
-
-                              if (!paths.includes(window.location.pathname)) {
-                                  window.location.href = config.routes.login
-                              }
-
-                              return (
-                                  <Route
-                                      key={index}
-                                      path={route.path}
-                                      element={
-                                          <Layout>
-                                              <Page />
-                                          </Layout>
-                                      }
-                                  />
-                              )
-                          })}
-                </Routes>
-            </Router>
+            <Routes>
+                <Route
+                    path={config.routes.home}
+                    element={
+                        <MainLayout>
+                            <Home />
+                        </MainLayout>
+                    }
+                />
+                <Route
+                    path={config.routes.login}
+                    element={<MainLayout>{!authUser ? <Login /> : <Navigate to={config.routes.home} />}</MainLayout>}
+                />
+                <Route
+                    path={config.routes.signUp}
+                    element={<MainLayout>{!authUser ? <SignUp /> : <Navigate to={config.routes.home} />}</MainLayout>}
+                />
+                <Route
+                    path={config.routes.likes}
+                    element={<MainLayout>{authUser ? <Likes /> : <Navigate to={config.routes.login} />}</MainLayout>}
+                />
+                <Route
+                    path={config.routes.explore}
+                    element={<MainLayout>{authUser ? <Explore /> : <Navigate to={config.routes.login} />}</MainLayout>}
+                />
+            </Routes>
 
             <Toaster />
         </>

@@ -4,6 +4,7 @@ import { FaXTwitter } from 'react-icons/fa6'
 import { IoLocationOutline } from 'react-icons/io5'
 import { TfiThought } from 'react-icons/tfi'
 import { formatMemberSince } from '../ultils/functions'
+import LikeProfile from './LikeProfile'
 // import { LikeProfile } from './LikeProfile'
 // import { userProfile, memberSince } from '../lib/constant'
 
@@ -38,7 +39,7 @@ export const ProfileInfo = ({ userProfile }) => {
                     {/* View on Github */}
 
                     <div className="flex gap-2 items-center flex-col min-w-[126px]">
-                        {/* <LikeProfile userProfile={userProfile} /> */}
+                        <LikeProfile userProfile={userProfile} />
                         <a
                             href={userProfile?.html_url}
                             target="_blank"

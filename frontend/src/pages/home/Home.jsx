@@ -16,19 +16,7 @@ function Home() {
     const getUserProfileAndRepos = useCallback(async (username = 'phamdung2209') => {
         setLoading(true)
         try {
-            // const userRes = await fetch(`https://api.github.com/users/${username}`, {
-            //     headers: {
-            //         authorization: `token ${import.meta.env.VITE_GITHUB_API_KEY}`,
-            //     },
-            // })
-
-            // const userProfile = await userRes.json()
-            // setUserProfile(userProfile)
-
-            // const repoRes = await fetch(userProfile.repos_url)
-            // const repos = await repoRes.json()
-
-            const res = await fetch(`http://localhost:8080/api/users/profile/${username}`)
+            const res = await fetch(`/api/users/profile/${username}`)
             const { userProfile, repos } = await res.json()
 
             setUserProfile(userProfile)
@@ -42,9 +30,6 @@ function Home() {
             setLoading(false)
         }
     }, [])
-
-    console.log('userProfile', userProfile)
-    console.log('repos', repos)
 
     useEffect(() => {
         getUserProfileAndRepos()

@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import passport from 'passport'
 import session from 'express-session'
+import path from 'path'
 
 import './passport/github.auth.js'
 
@@ -13,6 +14,8 @@ import connectDB from './config/connectDB.js'
 
 dotenv.config()
 const app = express()
+const PORT = process.env.PORT ?? 8080
+const __dirname = path.resolve()
 
 // passport
 app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }))
@@ -21,16 +24,20 @@ app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: fals
 app.use(passport.initialize())
 app.use(passport.session())
 
-const PORT = 8080
 app.use(cors())
 
-app.get('/', (req, res) => {
-    res.send('Server is ready')
-})
+// app.get('/', (req, res) => {
+//     res.send('Server is ready')
+// })
 
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/explore', exploreRoutes)
+
+app.use(express.static(path.join(__dirname, 'frontend/dist')))
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend/dist/index.html'))
+})
 
 app.listen(PORT, () => {
     console.log(`Server running on port http://localhost:${PORT}`)

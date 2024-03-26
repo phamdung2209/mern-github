@@ -22,7 +22,7 @@ passport.use(
         {
             clientID: process.env.GITHUB_CLIENT_ID,
             clientSecret: process.env.GITHUB_CLIENT_SECRET,
-            callbackURL: 'https://github.dungpv.id.vn/api/auth/github/callback',
+            callbackURL: process.env.AUTH_GITHUB_CALLBACK_URL,
         },
         async function (accessToken, refreshToken, profile, done) {
             const user = await User.findOne({ username: profile.username })
